@@ -8,8 +8,8 @@ import {
   Moon,
   Sun
 } from "lucide-react";
-import { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
 import { useAuthStore } from "@/features/auth/authStore";
 import { useThemeStore } from "@/features/theme/themeStore";
@@ -22,19 +22,42 @@ const navItems = [
 
 export function AppLayout() {
   const [isOpen, setIsOpen] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const theme = useThemeStore((state) => state.theme);
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate("/login", { replace: true });
   };
 
+  useEffect(() => {
+    mainRef.current?.focus();
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <div className="min-h-screen bg-canvas text-ink lg:grid lg:grid-cols-[280px_1fr]">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-amber focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-ink"
+      >
+        Skip to main content
+      </a>
       <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 dark:border-slate-800 dark:bg-slate-950 lg:hidden">
         <div className="flex items-center gap-3 text-lg font-bold">
           <span className="grid size-9 place-items-center rounded-md bg-ink text-amber">
@@ -65,6 +88,7 @@ export function AppLayout() {
       </header>
 
       <aside
+        aria-label="Sidebar navigation"
         className={cn(
           "fixed inset-y-0 left-0 z-40 flex w-72 -translate-x-full flex-col border-r border-slate-200 bg-white p-5 transition dark:border-slate-800 dark:bg-slate-950 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0",
           isOpen && "translate-x-0 shadow-soft"
@@ -139,7 +163,12 @@ export function AppLayout() {
         />
       ) : null}
 
-      <main className="min-w-0 px-4 py-6 sm:px-6 lg:px-8">
+      <main
+        id="main-content"
+        ref={mainRef}
+        tabIndex={-1}
+        className="min-w-0 px-4 py-6 focus:outline-none sm:px-6 lg:px-8"
+      >
         <Outlet />
       </main>
     </div>

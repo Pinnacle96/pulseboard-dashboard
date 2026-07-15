@@ -16,12 +16,21 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
   type ColumnDef,
+  type PaginationState,
   type SortingState
 } from "@tanstack/react-table";
-import { ArrowDownUp, Download, RefreshCcw, Search } from "lucide-react";
+import {
+  ArrowDownUp,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  RefreshCcw,
+  Search
+} from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { fetchDashboardData } from "@/lib/api";
 import type { ActivityRecord, Metric } from "@/types/domain";
@@ -121,6 +130,10 @@ function SkeletonDashboard() {
 export function DashboardPage() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 8
+  });
   const { data, isLoading, isError, refetch, isFetching } = useQuery({
     queryKey: ["dashboard"],
     queryFn: fetchDashboardData
@@ -129,12 +142,14 @@ export function DashboardPage() {
   const table = useReactTable({
     data: data?.records ?? [],
     columns,
-    state: { sorting, globalFilter },
+    state: { sorting, globalFilter, pagination },
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel()
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel()
   });
 
   const totalSpend = useMemo(
@@ -345,6 +360,72 @@ export function DashboardPage() {
               )}
             </tbody>
           </table>
+        </div>
+
+        <div className="mt-5 flex flex-col gap-4 border-t border-slate-200 pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-muted">
+            Showing{" "}
+            <span className="font-semibold text-ink">
+              {table.getRowModel().rows.length === 0
+                ? 0
+                : pagination.pageIndex * pagination.pageSize + 1}
+            </span>{" "}
+            to{" "}
+            <span className="font-semibold text-ink">
+              {Math.min(
+                (pagination.pageIndex + 1) * pagination.pageSize,
+                table.getFilteredRowModel().rows.length
+              )}
+            </span>{" "}
+            of{" "}
+            <span className="font-semibold text-ink">
+              {table.getFilteredRowModel().rows.length}
+            </span>{" "}
+            customers
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="flex items-center gap-2 text-sm font-medium text-muted">
+              Rows
+              <select
+                value={pagination.pageSize}
+                onChange={(event) => {
+                  table.setPageSize(Number(event.target.value));
+                }}
+                className="min-h-10 rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-ink shadow-sm focus:border-brand dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+              >
+                {[8, 12, 20].map((pageSize) => (
+                  <option key={pageSize} value={pageSize}>
+                    {pageSize}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                className="size-10 p-0"
+                aria-label="Previous page"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                <ChevronLeft aria-hidden="true" size={18} />
+              </Button>
+              <span className="min-w-24 text-center text-sm font-semibold text-ink">
+                Page {pagination.pageIndex + 1} of {table.getPageCount() || 1}
+              </span>
+              <Button
+                variant="ghost"
+                className="size-10 p-0"
+                aria-label="Next page"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                <ChevronRight aria-hidden="true" size={18} />
+              </Button>
+            </div>
+          </div>
         </div>
       </article>
     </section>

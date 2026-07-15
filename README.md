@@ -1,30 +1,60 @@
 # PulseBoard - Responsive Dashboard Application
 
-Production-grade React dashboard implementation for the Frontend Engineer skill
-verification case study.
+PulseBoard is a production-quality responsive dashboard built for the Frontend
+Engineer skill verification case study. It includes mocked authentication,
+protected routes, API-backed dashboard data, interactive charts, sortable and
+filterable tables, profile editing, accessibility refinements, and a persistent
+light/dark mode.
+
+## Features
+
+- Login and registration pages with client-side validation
+- Mocked authentication with localStorage session persistence
+- Protected application routes with redirect handling
+- Responsive sidebar navigation with active route highlighting
+- Desktop topbar with page context, search affordance, theme toggle, and profile
+  summary
+- Mobile hamburger menu with keyboard-friendly close behavior
+- Dashboard metric cards for key business indicators
+- Responsive line and pie charts powered by API-derived data
+- Customer activity table with sorting, filtering, empty state, and horizontal
+  overflow handling
+- Loading skeletons, retryable error states, and friendly empty states
+- User profile display and edit flow with validation
+- Persistent light/dark mode that respects system preference on first load
+- Skip link, visible focus states, ARIA labels, and route focus management
 
 ## Tech Stack
 
-- React 19 with TypeScript and Vite
-- React Router for protected routing and route-level code splitting
-- TanStack Query for API caching, loading, and error states
-- Zustand for authentication and user session state
-- React Hook Form and Zod for client-side validation
-- Recharts for responsive data visualization
-- TanStack Table for sorting and filtering
-- Tailwind CSS for mobile-first styling
-- Vitest for focused unit tests
-- Persistent light/dark mode toggle
+- **React + TypeScript + Vite** for a modern, typed frontend foundation
+- **React Router** for routing, protected pages, and lazy-loaded routes
+- **TanStack Query** for API fetching, caching, loading states, and error states
+- **Zustand** for authentication and theme state
+- **React Hook Form + Zod** for form state and validation
+- **Recharts** for responsive dashboard visualizations
+- **TanStack Table** for sorting and filtering table data
+- **Tailwind CSS** for mobile-first styling and consistent design tokens
+- **Vitest** for focused unit testing
 
 ## Getting Started
 
+Install dependencies:
+
 ```bash
 npm install
+```
+
+Start the development server:
+
+```bash
 npm run dev
 ```
 
-The app runs locally at the URL printed by Vite, usually
-`http://localhost:5173/`.
+The app runs locally at the URL printed by Vite, usually:
+
+```txt
+http://localhost:5173/
+```
 
 Demo login:
 
@@ -33,207 +63,67 @@ Email: maya@example.com
 Password: password123
 ```
 
-## Scripts
+## Available Scripts
 
 ```bash
-npm run dev      # Start local development server
+npm run dev      # Start the local development server
 npm run build    # Type-check and build production assets
 npm run lint     # Run ESLint
 npm run test     # Run unit tests
 ```
 
-## Implementation Notes
+## API and Data
 
-- Authentication is mocked with localStorage JWT simulation as suggested in the
-  prompt.
-- Dashboard data is fetched from JSONPlaceholder and transformed into metrics,
-  chart data, and table records.
-- Protected routes redirect unauthenticated users to `/login`.
-- Dashboard routes are lazy-loaded for code splitting.
-- Light/dark mode is persisted in localStorage and respects the user's system
-  preference on first load.
-- The layout includes responsive sidebar navigation, active route highlighting,
-  mobile menu support, loading skeletons, retryable error states, and empty table
-  states.
+Dashboard data is fetched from
+[JSONPlaceholder](https://jsonplaceholder.typicode.com/) and transformed into:
 
----
+- 4 summary metrics
+- 12 monthly chart data points
+- Plan distribution data for the pie chart
+- 30 customer activity records for the sortable/filterable table
 
-# Original Case Study Brief
+The profile page also uses API-shaped user data, while edits are persisted into
+the mocked authenticated session.
 
-## Role
-Frontend Engineer
+## Architecture Notes
 
-## Title
-Responsive Dashboard Application
+- Authentication state is isolated in `src/features/auth/authStore.ts`.
+- Theme state is isolated in `src/features/theme/themeStore.ts`.
+- API access and data transformation live in `src/lib/api.ts`.
+- Dashboard, profile, and auth code are grouped by feature.
+- Shared UI primitives live in `src/components/ui`.
+- Dashboard and profile routes are lazy-loaded to keep the initial route lighter.
 
-## Brief
-Build a modern, responsive dashboard application that displays data visualizations, handles user interactions, and demonstrates your proficiency in frontend development, state management, and UI/UX best practices.
+## Accessibility
 
-## Description
+The application includes semantic landmarks, form labels, ARIA labels where
+needed, keyboard-accessible controls, visible focus states, a skip link, route
+focus management, and Escape-key support for closing the mobile menu.
 
-### Objective
-Create a production-quality dashboard application that:
-- Fetches and displays data from an API
-- Provides interactive data visualizations
-- Implements user authentication flow
-- Is fully responsive across devices
-- Follows modern frontend best practices
+## Verification
 
-### Technical Requirements
+The following checks pass:
 
-#### 1. Core Features
-- **Authentication Pages**
-  - Login page with form validation
-  - Registration page
-  - Protected routes (redirect to login if not authenticated)
-  - Logout functionality
+```bash
+npm run build
+npm run test -- --run
+npm run lint
+```
 
-- **Dashboard Home**
-  - Summary cards showing key metrics
-  - At least 2 different chart types (line, bar, pie, etc.)
-  - Data grid/table with sorting and filtering
-  - Loading states and error handling
+`npm run lint` currently completes with warnings only. The warnings are related
+to TanStack Table's React Compiler compatibility notice and a Fast Refresh
+warning for the route module export shape.
 
-- **User Profile**
-  - Display user information
-  - Edit profile functionality
-  - Form validation
+## Submission Flow
 
-- **Navigation**
-  - Responsive sidebar or navbar
-  - Active route highlighting
-  - Mobile menu (hamburger menu for mobile)
+This implementation should be submitted from the feature branch:
 
-#### 2. Technical Implementation
+```bash
+git push -u origin feature/responsive-dashboard
+```
 
-##### State Management
-- Use a state management solution (Redux, Zustand, Context API, or similar)
-- Manage authentication state
-- Cache API responses appropriately
+Then open a Pull Request from:
 
-##### API Integration
-- Use a mock API (JSON Placeholder, JSONServer, or provided API)
-- Implement proper API error handling
-- Show loading states during data fetching
-- Handle network errors gracefully
-
-##### Styling
-- Use CSS-in-JS, CSS Modules, Tailwind CSS, or styled-components
-- Responsive design (mobile-first approach)
-- Consistent theming (colors, typography, spacing)
-- Modern UI with attention to UX
-
-##### Performance
-- Code splitting (lazy loading routes)
-- Optimize bundle size
-- Memoization where appropriate
-- No unnecessary re-renders
-
-##### Form Validation
-- Client-side validation
-- Display validation errors clearly
-- Prevent invalid form submissions
-
-##### Accessibility
-- Semantic HTML elements
-- ARIA labels where needed
-- Keyboard navigation support
-- Focus management
-
-#### 3. Technology Stack (Choose one)
-
-**React**
-- React 18+ with TypeScript
-- React Router for routing
-- State management library
-- Chart library (Recharts, Chart.js, etc.)
-
-**Vue**
-- Vue 3 with TypeScript
-- Vue Router
-- Pinia or Vuex for state management
-- Chart library
-
-**Angular**
-- Angular 15+ with TypeScript
-- Angular Router
-- RxJS for state management
-- Chart library
-
-### Data Requirements
-
-You can use these mock APIs or create your own:
-- **JSONPlaceholder** - https://jsonplaceholder.typicode.com/
-- **JSON Server** - Set up your own local mock API
-- **Provided API** - Use the API endpoint provided in the repository
-
-Minimum data to display:
-- Dashboard metrics (4-6 summary cards)
-- Chart data (line/bar chart with 10+ data points)
-- Table data (list of 20+ items with filtering)
-- User profile data
-
-### UI/UX Requirements
-1. Clean, modern design
-2. Intuitive navigation
-3. Responsive layout (mobile, tablet, desktop)
-4. Loading skeletons or spinners
-5. Error states with user-friendly messages
-6. Empty states (e.g., "No data available")
-7. Smooth transitions and animations (subtle)
-
-### Deliverables
-1. Complete source code in GitHub repository
-2. README with:
-   - Setup and installation instructions
-   - How to run the application
-   - Technology choices explanation
-   - Screenshots or GIF of the application
-3. Working application (localhost instructions)
-4. Pull Request with your implementation
-
-### Evaluation Criteria
-Your submission will be evaluated based on:
-1. **Functionality** (25%) - All features work as specified
-2. **Code Quality** (25%) - Clean, maintainable, well-structured code
-3. **UI/UX Design** (20%) - Modern, intuitive, responsive design
-4. **State Management** (15%) - Proper state handling and data flow
-5. **Performance** (10%) - Fast, optimized, no unnecessary re-renders
-6. **Documentation** (5%) - Clear README and code comments
-
-### Time Limit
-72 hours from repository access
-
-### Getting Started
-1. Accept the repository invitation
-2. Clone the repository
-3. Create a new branch for your implementation
-4. Install dependencies and start development
-5. Push your code and create a Pull Request to `main`
-6. Your PR will be automatically evaluated
-
-### Bonus Points
-- Unit tests (Jest, Vitest, Cypress)
-- Dark mode toggle
-- Advanced filtering/search in table
-- Data export functionality
-- Responsive charts
-- Animations and micro-interactions
-- Accessibility features (WCAG AA compliance)
-
-### Tips
-- Start with the layout and navigation structure
-- Mock authentication initially (localStorage JWT simulation)
-- Focus on one feature at a time
-- Make it work, then make it beautiful
-- Test responsiveness frequently
-- Commit regularly with meaningful messages
-- Keep components small and focused
-
-# Submission Instructions
-1. Clone the template repository,
-2. Checkout to a new branch and complete the case study requirements,
-3. Push your changes and create a Pull Request to the `main` branch,
-4. Your submission will be evaluated and you will receive feedback via email
-
-Good luck! 🎨
+```txt
+feature/responsive-dashboard -> main
+```

@@ -40,6 +40,34 @@ Email: maya@example.com
 Password: password123
 ```
 
+## Screenshots
+
+Login:
+
+![Login desktop](docs/screenshots/login-desktop.png)
+
+Dashboard:
+
+![Dashboard overview](docs/screenshots/dashboard-desktop-overview.png)
+
+![Dashboard table](docs/screenshots/dashboard-desktop-table.png)
+
+Profile:
+
+![Profile desktop](docs/screenshots/profile-desktop.png)
+
+Mobile views:
+
+![Login mobile](docs/screenshots/login-mobile.png)
+
+![Dashboard mobile overview](docs/screenshots/dashboard-mobile-overview.png)
+
+![Dashboard mobile charts](docs/screenshots/dashboard-mobile-charts.png)
+
+![Dashboard mobile table](docs/screenshots/dashboard-mobile-table.png)
+
+![Profile mobile](docs/screenshots/profile-mobile.png)
+
 ## Scripts
 
 ```bash

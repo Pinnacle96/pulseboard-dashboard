@@ -15,6 +15,49 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root.dark {
+  color-scheme: dark;
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.dark .bg-canvas {
+  background-color: #0f172a;
+}
+
+.dark .bg-white {
+  background-color: #1e293b;
+}
+
+.dark .text-ink {
+  color: #f8fafc;
+}
+
+.dark .text-muted {
+  color: #94a3b8;
+}
+
+.dark .border-slate-200,
+.dark .border-slate-100 {
+  border-color: #334155;
+}
+
+.dark .bg-slate-200 {
+  background-color: #334155;
+}
+
+.dark .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.14);
+}
+
+.dark .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.16);
+}
+
+.dark .bg-rose-50 {
+  background-color: rgba(244, 63, 94, 0.16);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -23,6 +66,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  background: inherit;
 }
 
 button,

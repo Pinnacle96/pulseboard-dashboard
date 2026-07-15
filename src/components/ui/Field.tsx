@@ -17,7 +17,7 @@ export function Field({ label, error, id, className, ...props }: FieldProps) {
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${fieldId}-error` : undefined}
         className={cn(
-          "min-h-11 rounded-md border border-slate-200 bg-white px-3 text-sm text-ink shadow-sm transition placeholder:text-slate-400 focus:border-brand",
+          "min-h-11 rounded-md border border-slate-200 bg-white px-3 text-sm text-ink shadow-sm transition placeholder:text-slate-400 focus:border-brand dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500",
           className
         )}
         {...props}

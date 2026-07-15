@@ -1,4 +1,64 @@
-# Frontend Engineer - Skill Verification Case Study
+# PulseBoard - Responsive Dashboard Application
+
+Production-grade React dashboard implementation for the Frontend Engineer skill
+verification case study.
+
+## Tech Stack
+
+- React 19 with TypeScript and Vite
+- React Router for protected routing and route-level code splitting
+- TanStack Query for API caching, loading, and error states
+- Zustand for authentication and user session state
+- React Hook Form and Zod for client-side validation
+- Recharts for responsive data visualization
+- TanStack Table for sorting and filtering
+- Tailwind CSS for mobile-first styling
+- Vitest for focused unit tests
+- Persistent light/dark mode toggle
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+The app runs locally at the URL printed by Vite, usually
+`http://localhost:5173/`.
+
+Demo login:
+
+```txt
+Email: maya@example.com
+Password: password123
+```
+
+## Scripts
+
+```bash
+npm run dev      # Start local development server
+npm run build    # Type-check and build production assets
+npm run lint     # Run ESLint
+npm run test     # Run unit tests
+```
+
+## Implementation Notes
+
+- Authentication is mocked with localStorage JWT simulation as suggested in the
+  prompt.
+- Dashboard data is fetched from JSONPlaceholder and transformed into metrics,
+  chart data, and table records.
+- Protected routes redirect unauthenticated users to `/login`.
+- Dashboard routes are lazy-loaded for code splitting.
+- Light/dark mode is persisted in localStorage and respects the user's system
+  preference on first load.
+- The layout includes responsive sidebar navigation, active route highlighting,
+  mobile menu support, loading skeletons, retryable error states, and empty table
+  states.
+
+---
+
+# Original Case Study Brief
 
 ## Role
 Frontend Engineer

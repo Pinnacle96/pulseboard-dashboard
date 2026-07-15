@@ -8,9 +8,10 @@ type ButtonProps = PropsWithChildren<
 >;
 
 const variants = {
-  primary: "bg-brand text-white hover:bg-blue-700",
-  secondary: "bg-ink text-white hover:bg-slate-800",
-  ghost: "bg-transparent text-muted hover:bg-slate-100 hover:text-ink",
+  primary: "bg-brand text-white hover:bg-blue-700 dark:hover:bg-blue-500",
+  secondary: "bg-ink text-white hover:bg-slate-800 dark:bg-slate-100 dark:text-ink dark:hover:bg-white",
+  ghost:
+    "bg-transparent text-muted hover:bg-slate-100 hover:text-ink dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white",
   danger: "bg-coral text-white hover:bg-rose-700"
 };
 

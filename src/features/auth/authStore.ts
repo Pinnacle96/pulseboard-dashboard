@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { User } from "@/types/domain";
+import type { User } from "../../types/domain";
 
 type Credentials = {
   email: string;

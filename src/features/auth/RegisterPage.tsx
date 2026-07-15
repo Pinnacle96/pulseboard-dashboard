@@ -3,10 +3,10 @@ import { UserPlus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/Button";
-import { Field } from "@/components/ui/Field";
-import { useAuthStore } from "@/features/auth/authStore";
-import { registerSchema, type RegisterValues } from "@/features/auth/schemas";
+import { Button } from "../../components/ui/Button";
+import { Field } from "../../components/ui/Field";
+import { useAuthStore } from "./authStore";
+import { registerSchema, type RegisterValues } from "./schemas";
 
 export function RegisterPage() {
   const registerUser = useAuthStore((state) => state.register);

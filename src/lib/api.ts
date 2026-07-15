@@ -4,7 +4,7 @@ import type {
   RevenuePoint,
   SegmentPoint,
   User
-} from "@/types/domain";
+} from "../types/domain";
 
 type JsonUser = {
   id: number;

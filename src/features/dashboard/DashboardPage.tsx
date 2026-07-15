@@ -31,10 +31,10 @@ import {
   RefreshCcw,
   Search
 } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { fetchDashboardData } from "@/lib/api";
-import type { ActivityRecord, Metric } from "@/types/domain";
-import { cn } from "@/lib/cn";
+import { Button } from "../../components/ui/Button";
+import { fetchDashboardData } from "../../lib/api";
+import type { ActivityRecord, Metric } from "../../types/domain";
+import { cn } from "../../lib/cn";
 
 const segmentColors = ["#275efe", "#0e9f8f", "#f6c85f"];
 

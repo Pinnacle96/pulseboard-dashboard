@@ -3,10 +3,10 @@ import { LogIn } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/Button";
-import { Field } from "@/components/ui/Field";
-import { useAuthStore } from "@/features/auth/authStore";
-import { loginSchema, type LoginValues } from "@/features/auth/schemas";
+import { Button } from "../../components/ui/Button";
+import { Field } from "../../components/ui/Field";
+import { useAuthStore } from "./authStore";
+import { loginSchema, type LoginValues } from "./schemas";
 
 export function LoginPage() {
   const login = useAuthStore((state) => state.login);

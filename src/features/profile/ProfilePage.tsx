@@ -3,11 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { Save, UserRound, RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/Button";
-import { Field } from "@/components/ui/Field";
-import { useAuthStore } from "@/features/auth/authStore";
-import { profileSchema, type ProfileValues } from "@/features/profile/profileSchema";
-import { fetchProfile } from "@/lib/api";
+import { Button } from "../../components/ui/Button";
+import { Field } from "../../components/ui/Field";
+import { useAuthStore } from "../auth/authStore";
+import { profileSchema, type ProfileValues } from "./profileSchema";
+import { fetchProfile } from "../../lib/api";
 
 export function ProfilePage() {
   const authUser = useAuthStore((state) => state.user);

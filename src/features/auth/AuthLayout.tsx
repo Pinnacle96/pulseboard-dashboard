@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { Activity } from "lucide-react";
-import { useAuthStore } from "@/features/auth/authStore";
+import { useAuthStore } from "./authStore";
 
 export function AuthLayout() {
   const token = useAuthStore((state) => state.token);

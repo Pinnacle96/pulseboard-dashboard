@@ -11,10 +11,10 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/Button";
-import { useAuthStore } from "@/features/auth/authStore";
-import { useThemeStore } from "@/features/theme/themeStore";
-import { cn } from "@/lib/cn";
+import { Button } from "../components/ui/Button";
+import { useAuthStore } from "../features/auth/authStore";
+import { useThemeStore } from "../features/theme/themeStore";
+import { cn } from "../lib/cn";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },

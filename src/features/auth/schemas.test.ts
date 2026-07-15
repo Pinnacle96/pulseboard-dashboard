@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { loginSchema, registerSchema } from "@/features/auth/schemas";
+import { loginSchema, registerSchema } from "./schemas";
 
 describe("auth schemas", () => {
   it("accepts valid login values", () => {

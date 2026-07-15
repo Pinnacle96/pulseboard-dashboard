@@ -6,6 +6,7 @@ import {
   LogOut,
   Activity,
   Moon,
+  Search,
   Sun
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -20,6 +21,17 @@ const navItems = [
   { to: "/profile", label: "Profile", icon: UserRound }
 ];
 
+const pageMeta: Record<string, { title: string; eyebrow: string }> = {
+  "/dashboard": {
+    title: "Business overview",
+    eyebrow: "Dashboard"
+  },
+  "/profile": {
+    title: "Account details",
+    eyebrow: "User profile"
+  }
+};
+
 export function AppLayout() {
   const [isOpen, setIsOpen] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
@@ -29,6 +41,7 @@ export function AppLayout() {
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
   const navigate = useNavigate();
   const location = useLocation();
+  const currentPage = pageMeta[location.pathname] ?? pageMeta["/dashboard"];
 
   const handleLogout = () => {
     logout();
@@ -163,14 +176,62 @@ export function AppLayout() {
         />
       ) : null}
 
-      <main
-        id="main-content"
-        ref={mainRef}
-        tabIndex={-1}
-        className="min-w-0 px-4 py-6 focus:outline-none sm:px-6 lg:px-8"
-      >
-        <Outlet />
-      </main>
+      <div className="min-w-0">
+        <div className="sticky top-0 z-20 hidden h-20 items-center justify-between border-b border-slate-200 bg-white/90 px-8 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90 lg:flex">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand">
+              {currentPage.eyebrow}
+            </p>
+            <h1 className="mt-1 text-2xl font-bold text-ink">{currentPage.title}</h1>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <label className="relative block w-72">
+              <Search
+                aria-hidden="true"
+                size={18}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"
+              />
+              <span className="sr-only">Search workspace</span>
+              <input
+                placeholder="Search workspace..."
+                className="min-h-11 w-full rounded-md border border-slate-200 bg-canvas pl-10 pr-3 text-sm text-ink shadow-sm transition placeholder:text-slate-400 focus:border-brand dark:border-slate-700 dark:bg-slate-900 dark:text-white"
+              />
+            </label>
+            <button
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              className="grid size-11 place-items-center rounded-md border border-slate-200 bg-canvas text-ink transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800"
+              onClick={toggleTheme}
+            >
+              {theme === "dark" ? (
+                <Sun aria-hidden="true" size={20} />
+              ) : (
+                <Moon aria-hidden="true" size={20} />
+              )}
+            </button>
+            <div className="flex items-center gap-3 rounded-md border border-slate-200 bg-canvas px-3 py-2 dark:border-slate-700 dark:bg-slate-900">
+              <img
+                src={user?.avatarUrl}
+                alt=""
+                className="size-8 rounded-full border border-slate-200 bg-white dark:border-slate-700"
+              />
+              <div className="max-w-40">
+                <p className="truncate text-sm font-bold text-ink">{user?.name}</p>
+                <p className="truncate text-xs text-muted">{user?.role}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <main
+          id="main-content"
+          ref={mainRef}
+          tabIndex={-1}
+          className="min-w-0 px-4 py-6 focus:outline-none sm:px-6 lg:px-8"
+        >
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }

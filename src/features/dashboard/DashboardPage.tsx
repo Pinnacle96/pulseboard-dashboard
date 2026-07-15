@@ -166,7 +166,7 @@ export function DashboardPage() {
 
   return (
     <section className="grid gap-6">
-      <div className="flex flex-col justify-between gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:flex-row md:items-center">
+      <div className="flex flex-col justify-between gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:flex-row md:items-center lg:hidden">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand">
             Dashboard
@@ -176,6 +176,16 @@ export function DashboardPage() {
             Revenue, customer activity, and account health from live API data.
           </p>
         </div>
+        <Button variant="secondary">
+          <Download aria-hidden="true" size={18} />
+          Export
+        </Button>
+      </div>
+
+      <div className="hidden items-center justify-between gap-4 lg:flex">
+        <p className="text-sm text-muted">
+          Revenue, customer activity, and account health from live API data.
+        </p>
         <Button variant="secondary">
           <Download aria-hidden="true" size={18} />
           Export

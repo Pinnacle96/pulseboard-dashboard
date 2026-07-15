@@ -90,7 +90,7 @@ export function ProfilePage() {
 
   return (
     <section className="grid gap-6">
-      <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:hidden">
         <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand">
           User profile
         </p>
@@ -99,6 +99,10 @@ export function ProfilePage() {
           Manage the profile information shown across your dashboard workspace.
         </p>
       </div>
+
+      <p className="hidden text-sm text-muted lg:block">
+        Manage the profile information shown across your dashboard workspace.
+      </p>
 
       <div className="grid gap-6 xl:grid-cols-[360px_1fr]">
         <aside className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">

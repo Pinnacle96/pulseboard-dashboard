@@ -1,108 +1,111 @@
-# PulseBoard - Responsive Dashboard Application
+# PulseBoard Dashboard
 
-PulseBoard is a production-quality responsive dashboard built for the Frontend
-Engineer skill verification case study. It includes mocked authentication,
-protected routes, API-backed dashboard data, interactive charts, sortable and
-filterable tables, profile editing, accessibility refinements, and a persistent
-light/dark mode.
+This is my submission for the responsive dashboard case study.
 
-## Features
+The app has a mocked auth flow, protected dashboard pages, charts, a searchable
+customer table, profile editing, and light/dark mode. I used JSONPlaceholder for
+the API data and shaped it into the dashboard metrics, chart data, and table
+records.
 
-- Login and registration pages with client-side validation
-- Mocked authentication with localStorage session persistence
-- Protected application routes with redirect handling
-- Responsive sidebar navigation with active route highlighting
-- Desktop topbar with page context, search affordance, theme toggle, and profile
-  summary
-- Mobile hamburger menu with keyboard-friendly close behavior
-- Dashboard metric cards for key business indicators
-- Responsive line and pie charts powered by API-derived data
-- Customer activity table with sorting, filtering, empty state, and horizontal
-  overflow handling
-- Loading skeletons, retryable error states, and friendly empty states
-- User profile display and edit flow with validation
-- Persistent light/dark mode that respects system preference on first load
-- Skip link, visible focus states, ARIA labels, and route focus management
+## Stack
 
-## Tech Stack
+- React + TypeScript
+- Vite
+- React Router
+- Zustand
+- TanStack Query
+- TanStack Table
+- React Hook Form + Zod
+- Recharts
+- Tailwind CSS
+- Vitest
 
-- **React + TypeScript + Vite** for a modern, typed frontend foundation
-- **React Router** for routing, protected pages, and lazy-loaded routes
-- **TanStack Query** for API fetching, caching, loading states, and error states
-- **Zustand** for authentication and theme state
-- **React Hook Form + Zod** for form state and validation
-- **Recharts** for responsive dashboard visualizations
-- **TanStack Table** for sorting and filtering table data
-- **Tailwind CSS** for mobile-first styling and consistent design tokens
-- **Vitest** for focused unit testing
-
-## Getting Started
-
-Install dependencies:
+## Running the App
 
 ```bash
 npm install
-```
-
-Start the development server:
-
-```bash
 npm run dev
 ```
 
-The app runs locally at the URL printed by Vite, usually:
+Vite will print the local URL in the terminal. It is usually:
 
 ```txt
 http://localhost:5173/
 ```
 
-Demo login:
+You can sign in with:
 
 ```txt
 Email: maya@example.com
 Password: password123
 ```
 
-## Available Scripts
+## Scripts
 
 ```bash
-npm run dev      # Start the local development server
-npm run build    # Type-check and build production assets
-npm run lint     # Run ESLint
-npm run test     # Run unit tests
+npm run dev
+npm run build
+npm run lint
+npm run test
 ```
 
-## API and Data
+## What is Included
 
-Dashboard data is fetched from
-[JSONPlaceholder](https://jsonplaceholder.typicode.com/) and transformed into:
+- Login page with validation
+- Registration page with validation
+- Protected routes
+- Logout
+- Responsive sidebar navigation
+- Desktop topbar
+- Mobile hamburger menu
+- Dashboard summary cards
+- Line chart and pie chart
+- Sortable and filterable customer table
+- Loading skeletons
+- Error and empty states
+- Profile view and edit form
+- Light/dark mode
+- Basic accessibility improvements like labels, focus states, skip link, and
+  keyboard support
 
-- 4 summary metrics
-- 12 monthly chart data points
-- Plan distribution data for the pie chart
-- 30 customer activity records for the sortable/filterable table
+## Data
 
-The profile page also uses API-shaped user data, while edits are persisted into
-the mocked authenticated session.
+The app fetches from JSONPlaceholder:
 
-## Architecture Notes
+- `/users`
+- `/posts`
 
-- Authentication state is isolated in `src/features/auth/authStore.ts`.
-- Theme state is isolated in `src/features/theme/themeStore.ts`.
-- API access and data transformation live in `src/lib/api.ts`.
-- Dashboard, profile, and auth code are grouped by feature.
-- Shared UI primitives live in `src/components/ui`.
-- Dashboard and profile routes are lazy-loaded to keep the initial route lighter.
+The response is converted into:
 
-## Accessibility
+- dashboard metrics
+- monthly revenue data
+- plan distribution data
+- customer activity rows
+- profile data
 
-The application includes semantic landmarks, form labels, ARIA labels where
-needed, keyboard-accessible controls, visible focus states, a skip link, route
-focus management, and Escape-key support for closing the mobile menu.
+Auth is mocked with localStorage, as suggested in the brief.
 
-## Verification
+## Project Structure
 
-The following checks pass:
+```txt
+src/
+  app/
+  components/
+  features/
+    auth/
+    dashboard/
+    profile/
+    theme/
+  lib/
+  routes/
+  types/
+```
+
+Most code is grouped by feature so the app is easier to follow.
+
+## Checks
+
+These commands pass:
 
 ```bash
 npm run build
@@ -110,20 +113,5 @@ npm run test -- --run
 npm run lint
 ```
 
-`npm run lint` currently completes with warnings only. The warnings are related
-to TanStack Table's React Compiler compatibility notice and a Fast Refresh
-warning for the route module export shape.
-
-## Submission Flow
-
-This implementation should be submitted from the feature branch:
-
-```bash
-git push -u origin feature/responsive-dashboard
-```
-
-Then open a Pull Request from:
-
-```txt
-feature/responsive-dashboard -> main
-```
+Lint currently finishes with warnings only. The warnings are from TanStack Table
+and the route file export shape for Fast Refresh.

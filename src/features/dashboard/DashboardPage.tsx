@@ -38,6 +38,35 @@ import { cn } from "@/lib/cn";
 
 const segmentColors = ["#275efe", "#0e9f8f", "#f6c85f"];
 
+const formatCurrency = (value: number) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0
+  }).format(value);
+
+const formatDate = (value: string) =>
+  new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(new Date(value));
+
+function StatusBadge({ status }: { status: ActivityRecord["status"] }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex rounded-full px-2.5 py-1 text-xs font-bold",
+        status === "Active" && "bg-emerald-50 text-emerald-700",
+        status === "Pending" && "bg-amber-50 text-amber-700",
+        status === "At risk" && "bg-rose-50 text-rose-700"
+      )}
+    >
+      {status}
+    </span>
+  );
+}
+
 const columns: ColumnDef<ActivityRecord>[] = [
   {
     accessorKey: "customer",
@@ -55,48 +84,27 @@ const columns: ColumnDef<ActivityRecord>[] = [
     header: "Status",
     cell: ({ getValue }) => {
       const status = getValue<ActivityRecord["status"]>();
-      return (
-        <span
-          className={cn(
-            "inline-flex rounded-full px-2.5 py-1 text-xs font-bold",
-            status === "Active" && "bg-emerald-50 text-emerald-700",
-            status === "Pending" && "bg-amber-50 text-amber-700",
-            status === "At risk" && "bg-rose-50 text-rose-700"
-          )}
-        >
-          {status}
-        </span>
-      );
+      return <StatusBadge status={status} />;
     }
   },
   {
     accessorKey: "spend",
     header: "Spend",
-    cell: ({ getValue }) =>
-      new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        maximumFractionDigits: 0
-      }).format(getValue<number>())
+    cell: ({ getValue }) => formatCurrency(getValue<number>())
   },
   {
     accessorKey: "joined",
     header: "Joined",
-    cell: ({ getValue }) =>
-      new Intl.DateTimeFormat("en", {
-        month: "short",
-        day: "numeric",
-        year: "numeric"
-      }).format(new Date(getValue<string>()))
+    cell: ({ getValue }) => formatDate(getValue<string>())
   }
 ];
 
 function MetricCard({ metric }: { metric: Metric }) {
   return (
-    <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <p className="text-sm font-semibold text-muted">{metric.label}</p>
       <div className="mt-4 flex items-end justify-between gap-3">
-        <p className="text-2xl font-bold text-ink">{metric.value}</p>
+        <p className="text-2xl font-bold leading-none text-ink">{metric.value}</p>
         <span
           className={cn(
             "rounded-full px-2.5 py-1 text-xs font-bold",
@@ -180,7 +188,7 @@ export function DashboardPage() {
   }
 
   return (
-    <section className="grid gap-6">
+    <section className="grid gap-5 sm:gap-6">
       <div className="flex flex-col justify-between gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:flex-row md:items-center lg:hidden">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand">
@@ -207,14 +215,14 @@ export function DashboardPage() {
         </Button>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
         {data.metrics.map((metric) => (
           <MetricCard key={metric.label} metric={metric} />
         ))}
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
-        <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <article className="min-w-0 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="mb-5 flex items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-bold text-ink">Revenue trend</h2>
@@ -226,12 +234,15 @@ export function DashboardPage() {
               <span className="text-sm font-semibold text-brand">Refreshing</span>
             ) : null}
           </div>
-          <div className="h-80">
+          <div className="h-64 sm:h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data.revenue} margin={{ left: 0, right: 12 }}>
+              <LineChart
+                data={data.revenue}
+                margin={{ top: 8, right: 8, bottom: 0, left: -20 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="month" stroke="#64748b" />
-                <YAxis stroke="#64748b" />
+                <XAxis dataKey="month" stroke="#64748b" tick={{ fontSize: 12 }} />
+                <YAxis stroke="#64748b" tick={{ fontSize: 12 }} width={58} />
                 <Tooltip />
                 <Line
                   type="monotone"
@@ -252,18 +263,18 @@ export function DashboardPage() {
           </div>
         </article>
 
-        <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <article className="min-w-0 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <h2 className="text-lg font-bold text-ink">Plan distribution</h2>
           <p className="text-sm text-muted">Accounts by subscription tier</p>
-          <div className="mt-5 h-64">
+          <div className="mt-5 h-56 sm:h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={data.segments}
                   dataKey="value"
                   nameKey="name"
-                  innerRadius={62}
-                  outerRadius={92}
+                  innerRadius="48%"
+                  outerRadius="72%"
                   paddingAngle={4}
                 >
                   {data.segments.map((entry, index) => (
@@ -296,7 +307,7 @@ export function DashboardPage() {
         </article>
       </div>
 
-      <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
         <div className="mb-5 flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
             <h2 className="text-lg font-bold text-ink">Customer activity</h2>
@@ -311,14 +322,69 @@ export function DashboardPage() {
             <span className="sr-only">Filter customers</span>
             <input
               value={globalFilter}
-              onChange={(event) => setGlobalFilter(event.target.value)}
+              onChange={(event) => {
+                setGlobalFilter(event.target.value);
+                table.setPageIndex(0);
+              }}
               placeholder="Search customers..."
-              className="min-h-11 w-full rounded-md border border-slate-200 pl-10 pr-3 text-sm shadow-sm focus:border-brand"
+              className="min-h-11 w-full rounded-md border border-slate-200 bg-white pl-10 pr-3 text-sm text-ink shadow-sm focus:border-brand dark:border-slate-700 dark:bg-slate-950 dark:text-white"
             />
           </label>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="grid gap-3 md:hidden">
+          {table.getRowModel().rows.length > 0 ? (
+            table.getRowModel().rows.map((row) => (
+              <article
+                key={row.id}
+                className="rounded-lg border border-slate-200 bg-canvas p-4 dark:border-slate-700 dark:bg-slate-900"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h3 className="truncate text-sm font-bold text-ink">
+                      {row.original.customer}
+                    </h3>
+                    <p className="mt-1 truncate text-xs text-muted">
+                      {row.original.email}
+                    </p>
+                  </div>
+                  <StatusBadge status={row.original.status} />
+                </div>
+
+                <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <dt className="text-xs font-semibold uppercase tracking-wide text-muted">
+                      Plan
+                    </dt>
+                    <dd className="mt-1 font-bold text-ink">{row.original.plan}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs font-semibold uppercase tracking-wide text-muted">
+                      Spend
+                    </dt>
+                    <dd className="mt-1 font-bold text-ink">
+                      {formatCurrency(row.original.spend)}
+                    </dd>
+                  </div>
+                  <div className="col-span-2">
+                    <dt className="text-xs font-semibold uppercase tracking-wide text-muted">
+                      Joined
+                    </dt>
+                    <dd className="mt-1 font-bold text-ink">
+                      {formatDate(row.original.joined)}
+                    </dd>
+                  </div>
+                </dl>
+              </article>
+            ))
+          ) : (
+            <div className="rounded-lg border border-dashed border-slate-200 p-6 text-center text-sm text-muted dark:border-slate-700">
+              No data available
+            </div>
+          )}
+        </div>
+
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full min-w-[760px] border-collapse text-left text-sm">
             <thead>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -384,7 +450,7 @@ export function DashboardPage() {
             customers
           </p>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <label className="flex items-center gap-2 text-sm font-medium text-muted">
               Rows
               <select
@@ -402,7 +468,7 @@ export function DashboardPage() {
               </select>
             </label>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between gap-2 sm:justify-start">
               <Button
                 variant="ghost"
                 className="size-10 p-0"
